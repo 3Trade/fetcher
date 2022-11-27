@@ -16,6 +16,7 @@ export class TransportWorker {
       try {
         this.connection = await amqp.connect("amqp://guest:guest@rabbit:5672");
         this.channel = await this.connection.createChannel();
+        this.channel.prefetch(1);
         // await this.channel.assertQueue("binance", { durable: false });
         this.connected = true;
         console.log("Rabbit Connected!!");
@@ -33,16 +34,13 @@ export class TransportWorker {
   }
 
   async consume(line, callback) {
-    this.channel.consume(line, callback, {
-      noAck: true
+    await this.channel.consume(line, callback, {
+      noAck: false
     });
   }
-  async sendToQueue(line) {
+  async sendToQueue(line, params) {
     try {
-      this.channel.sendToQueue(
-        line,
-        Buffer.from(JSON.stringify({ timeframe: "4h" }))
-      );
+      this.channel.sendToQueue(line, Buffer.from(JSON.stringify(params)));
     } catch (err) {
       console.log("Error writing to file...", err);
     }

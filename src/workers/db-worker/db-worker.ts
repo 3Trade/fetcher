@@ -34,6 +34,7 @@ export class DBWorker {
       .collection(timeframe)
       .updateOne(filter, updateDoc, { upsert: true });
 
+    if (result) console.log("INSERTED: ", timeframe, pair, result);
     return result;
   }
 }
