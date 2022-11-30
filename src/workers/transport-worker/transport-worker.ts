@@ -6,18 +6,17 @@ export class TransportWorker {
   private channel;
   private connected;
   constructor() {
-    console.log("Starting Bus connection..");
+    console.log("Starting Rabbit worker...");
     this.connected = false;
   }
 
   async connect() {
+    console.log("Trying to connect Rabbit...");
     while (!this.connected) {
-      console.log("Trying to connect...");
       try {
         this.connection = await amqp.connect("amqp://guest:guest@rabbit:5672");
         this.channel = await this.connection.createChannel();
         this.channel.prefetch(1);
-        // await this.channel.assertQueue("binance", { durable: false });
         this.connected = true;
         console.log("Rabbit Connected!!");
       } catch {

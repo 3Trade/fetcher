@@ -7,6 +7,8 @@ export class DBWorker {
   private db;
   private dbName;
   constructor(dbName) {
+    console.log("Starting MongoDB worker...");
+
     this.dbName = dbName;
     this.connect();
   }
@@ -14,7 +16,7 @@ export class DBWorker {
   async connect() {
     // Use connect method to connect to the server
     await mongo_client.connect();
-    console.log("Connected successfully to Mongo DB");
+    console.log("Mongo DB connected!!");
     this.db = mongo_client.db(this.dbName);
     // collection = db.collection('1d');
 
