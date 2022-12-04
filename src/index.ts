@@ -12,7 +12,7 @@ const dbWorker = new DBWorker("klines");
 
 const updateDB = async function (ch, msg) {
   const message = JSON.parse(msg.content.toString());
-  const { timeframe, new_timestamp } = message;
+  const { timeframe } = message;
   console.log("Atualizing timeframe: ", timeframe);
   const pairs = await remoteWorker.getSymbolsFromQuote(["BTC", "EUR"]);
 
