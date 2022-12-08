@@ -24,6 +24,10 @@ export class DBWorker {
     return "done.";
   }
 
+  async deleteCollection(collectionName: string) {
+    this.db.getCollection(collectionName).deleteMany({});
+  }
+
   async saveKLines(timeframe, pair, klines) {
     const filter = { _id: pair };
     const updateDoc = {
